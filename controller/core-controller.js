@@ -1,6 +1,46 @@
+const questCheckMap = require('../slotChecks/quests');
+const checkWin = require('../slotChecks/win');
+
 class CoreController {
     static spin() {        
-        const spinResult = this.getSpinResult();        
+        const spinResult = this.getSpinResult();
+        const numbersMap = this.countNumbers(spinResult.matrix);
+        const win = checkWin(numbersMap);
+        const quests = this.getQuests();
+        const questResults = [];
+        for(const quest of quests){
+            if(!quest.isCompleted){
+                let questValue = questCheckMap.get(quest.questType)(
+                    numbersMap, quest.userQuestValue, spinResult.spentMoney
+                );
+                quest.userQuestValue = questValue;
+                if(questValue>=quest.questValue){
+                    quest.isCompleted = true;
+                    quest.dateCompleted = Date.now();
+                }
+                questResults.push(quest);
+            }
+        }
+        return {
+            'win': win,
+            'questResults': questResults
+        };
+    }
+    static countNumbers(matrix) {
+        const rows = 3;
+        let maps = [];
+        for (let i = 0; i<rows; i++){
+            maps[i] = new Map();
+        }
+        for(let i = 0; i< matrix.length; i++){
+            let row = i%rows;
+            if(maps[row].has(matrix[i])){
+                maps[row].set(matrix[i], maps[row].get(matrix[i]) + 1);
+            } else {
+                maps[row].set(matrix[i], 1);
+            }
+        }
+        return maps;
     }
 
     static getQuests() {

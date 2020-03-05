@@ -1,18 +1,19 @@
-function spinsQuest(previousValue){
+function spinsQuest(numberMaps, previousValue){
     return previousValue+1;
 }
-function moneyQuest(money, totalSpent){
-    return totalSpent+money;
+function moneyQuest(numberMaps, previousValue, money){
+    return previousValue+money;
 }
 function comboRowQuest(numberMaps, previousValue) {
+    let count = 0;
     for (const row of numberMaps){
         for (const v of row.values()){
             if(v>2){
-                return previousValue+1;
+                count++;
             }
         }
     }
-    return previousValue;
+    return previousValue + count;
 }
 function symbolQuest(numberMaps) {
     for (const row of numberMaps){
