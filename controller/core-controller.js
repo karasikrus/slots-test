@@ -14,12 +14,12 @@ class CoreController {
                     numbersMap, quest.userQuestValue, spinResult.spentMoney
                 );
                 quest.userQuestValue = questValue;
-                if(questValue>=quest.questValue){
+                if(questValue>=quest.questValue) {
                     quest.isCompleted = true;
                     quest.dateCompleted = Date.now();
                 }
-                questResults.push(quest);
             }
+            questResults.push(quest);
         }
         return {
             'win': win,
