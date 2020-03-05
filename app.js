@@ -1,17 +1,18 @@
 const CoreController = require('./controller/core-controller');
 
 let slotResult = CoreController.getSpinResult();
-let questResults = CoreController.spin();
+let results = CoreController.spin();
 
-console.log(slotResult.matrix);
+console.log(`slot matrix = [${slotResult.matrix}]`);
 displaySlots(slotResult.matrix);
 
-console.log(questResults);
+console.log(results.win? 'Winning spin!' : 'Try again :(');
 
-// console.log('spins = ', spinsQuest(0));
-// console.log('money spent = ', moneyQuest(slotResult.spentMoney, 0));
-// console.log('combos got = ', comboRowQuest(slotMaps, 0));
-// console.log('symbol got = ', symbolQuest(slotMaps));
+console.log('Quests info:');
+for(let quest of results.questResults){
+    console.log(`${quest.questType}:  ${quest.userQuestValue}/${quest.questValue}
+${quest.isCompleted? `Completed on ${new Date(quest.dateCompleted)}`:''}`);
+}
 
 function displaySlots(matrix) {
     const rows = 3;
@@ -22,9 +23,12 @@ function displaySlots(matrix) {
     for(let i = 0; i< matrix.length; i++){
         strings[i%rows].push(matrix[i]);
     }
+    console.log('SLOTS');
+    console.log('-------------');
     for(let i = 0; i< rows; i++){
         console.log(strings[i].join(' '));
     }
+    console.log('-------------');
 }
 
 
