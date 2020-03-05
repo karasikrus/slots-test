@@ -1,6 +1,7 @@
 const CoreController = require('./controller/core-controller');
 
 console.log(countNumbers(CoreController.getSpinResult().matrix));
+console.log(checkWin(countNumbers(CoreController.getSpinResult().matrix)))
 
 function countNumbers(matrix) {
     const rows = 3;
@@ -17,4 +18,14 @@ function countNumbers(matrix) {
         }
     }
     return maps;
+}
+function checkWin(numberMaps) {
+    for (const row of numberMaps){
+        for (const v of row.values()){
+            if(v>1){
+                return true;
+            }
+        }
+    }
+    return false;
 }
