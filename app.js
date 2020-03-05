@@ -1,4 +1,6 @@
 const CoreController = require('./controller/core-controller');
+const questMap = require('./slotChecks/quests');
+const checkWin = require('./slotChecks/win');
 
 let slotResult = CoreController.getSpinResult();
 let slotMaps = countNumbers(slotResult.matrix);
@@ -7,10 +9,10 @@ console.log(slotResult.matrix);
 displaySlots(slotResult.matrix);
 console.log(slotMaps);
 console.log('win = ', checkWin(slotMaps));
-console.log('spins = ', spinsQuest(0));
-console.log('money spent = ', moneyQuest(slotResult.spentMoney, 0));
-console.log('combos got = ', comboRowQuest(slotMaps, 0));
-console.log('symbol got = ', symbolQuest(slotMaps));
+// console.log('spins = ', spinsQuest(0));
+// console.log('money spent = ', moneyQuest(slotResult.spentMoney, 0));
+// console.log('combos got = ', comboRowQuest(slotMaps, 0));
+// console.log('symbol got = ', symbolQuest(slotMaps));
 
 function displaySlots(matrix) {
     const rows = 3;
@@ -25,6 +27,8 @@ function displaySlots(matrix) {
         console.log(strings[i].join(' '));
     }
 }
+
+
 
 function countNumbers(matrix) {
     const rows = 3;
@@ -42,39 +46,4 @@ function countNumbers(matrix) {
     }
     return maps;
 }
-function checkWin(numberMaps) {
-    for (const row of numberMaps){
-        for (const v of row.values()){
-            if(v>1){
-                return true;
-            }
-        }
-    }
-    return false;
-}
-function spinsQuest(previousValue){
-    return previousValue+1;
-}
-function moneyQuest(money, totalSpent){
-    return totalSpent+money;
-}
-function comboRowQuest(numberMaps, previousValue) {
-    for (const row of numberMaps){
-        for (const v of row.values()){
-            if(v>2){
-                return previousValue+1;
-            }
-        }
-    }
-    return previousValue;
-}
-function symbolQuest(numberMaps) {
-    for (const row of numberMaps){
-        for (const k of row.keys()){
-            if(k===71){
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
+
